@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?><unload unload_date="2025-04-28 18:13:16">
+<sys_remote_update_set action="INSERT_OR_UPDATE">
+<application display_value="Global">global</application>
+<application_name>Global</application_name>
+<application_scope>global</application_scope>
+<application_version/>
+<collisions/>
+<commit_date/>
+<deleted/>
+<description/>
+<inserted/>
+<name>servicenow-secure-encryption-util</name>
+<origin_sys_id/>
+<parent display_value=""/>
+<release_date/>
+<remote_base_update_set display_value=""/>
+<remote_parent_id/>
+<remote_sys_id>0f05e6b7930122105a86bfea2bba1040</remote_sys_id>
+<state>loaded</state>
+<summary/>
+<sys_class_name>sys_remote_update_set</sys_class_name>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2025-04-28 18:13:15</sys_created_on>
+<sys_id>38beaebb930122105a86bfea2bba1093</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2025-04-28 18:13:15</sys_updated_on>
+<update_set display_value=""/>
+<update_source display_value=""/>
+<updated/>
+</sys_remote_update_set>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="Global">global</application>
+<category>customer</category>
+<comments/>
+<name>sys_script_include_e865aeb7930122105a86bfea2bba100d</name>
+<payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sys_script_include"&gt;&lt;sys_script_include action="INSERT_OR_UPDATE"&gt;&lt;access&gt;public&lt;/access&gt;&lt;active&gt;true&lt;/active&gt;&lt;api_name&gt;global.SecureStringUtil&lt;/api_name&gt;&lt;caller_access/&gt;&lt;client_callable&gt;false&lt;/client_callable&gt;&lt;description/&gt;&lt;mobile_callable&gt;false&lt;/mobile_callable&gt;&lt;name&gt;SecureStringUtil&lt;/name&gt;&lt;sandbox_callable&gt;false&lt;/sandbox_callable&gt;&lt;script&gt;&lt;![CDATA[var SecureStringUtil = Class.create();
+SecureStringUtil.prototype = {
+    initialize: function() {},
+
+    generateSalt: function(length) {
+        var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        var salt = '';
+        for (var i = 0; i &lt; length; i++) {
+            salt += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return salt;
+    },
+
+    xorWithKey: function(text, key) {
+        var result = '';
+        for (var i = 0; i &lt; text.length; i++) {
+            result += String.fromCharCode(text.charCodeAt(i) ^ key.charCodeAt(i % key.length));
+        }
+        return result;
+    },
+
+    base58Encode: function(input) {
+        var alphabet = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+        var encoded = '';
+        var num = [];
+        for (var i = 0; i &lt; input.length; i++) {
+            num.push(input.charCodeAt(i));
+        }
+
+        while (num.length) {
+            var remainder = 0;
+            var newNum = [];
+            for (var i = 0; i &lt; num.length; i++) {
+                var temp = (remainder &lt;&lt; 8) + num[i];
+                var digit = Math.floor(temp / 58);
+                remainder = temp % 58;
+                if (newNum.length &gt; 0 || digit &gt; 0) {
+                    newNum.push(digit);
+                }
+            }
+            encoded = alphabet.charAt(remainder) + encoded;
+            num = newNum;
+        }
+
+        return encoded;
+    },
+
+    base58Decode: function(input) {
+        var alphabet = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+        var baseMap = {};
+        for (var i = 0; i &lt; alphabet.length; i++) {
+            baseMap[alphabet[i]] = i;
+        }
+
+        var bytes = [0];
+        for (var i = 0; i &lt; input.length; i++) {
+            var c = input[i];
+            var value = baseMap[c];
+            if (value === undefined)
+                throw new Error('Invalid character');
+
+            var carry = value;
+            for (var j = 0; j &lt; bytes.length; ++j) {
+                carry += bytes[j] * 58;
+                bytes[j] = carry &amp; 0xff;
+                carry &gt;&gt;= 8;
+            }
+            while (carry &gt; 0) {
+                bytes.push(carry &amp; 0xff);
+                carry &gt;&gt;= 8;
+            }
+        }
+
+        var result = '';
+        for (var i = bytes.length - 1; i &gt;= 0; i--) {
+            result += String.fromCharCode(bytes[i]);
+        }
+        return result;
+    },
+
+    type: 'SecureStringUtil'
+};
+]]&gt;&lt;/script&gt;&lt;sys_class_name&gt;sys_script_include&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2025-04-28 17:32:54&lt;/sys_created_on&gt;&lt;sys_id&gt;e865aeb7930122105a86bfea2bba100d&lt;/sys_id&gt;&lt;sys_mod_count&gt;0&lt;/sys_mod_count&gt;&lt;sys_name&gt;SecureStringUtil&lt;/sys_name&gt;&lt;sys_package display_value="Global" source="global"&gt;global&lt;/sys_package&gt;&lt;sys_policy/&gt;&lt;sys_scope display_value="Global"&gt;global&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_script_include_e865aeb7930122105a86bfea2bba100d&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2025-04-28 17:32:54&lt;/sys_updated_on&gt;&lt;/sys_script_include&gt;&lt;/record_update&gt;</payload>
+<payload_hash>-607112366</payload_hash>
+<remote_update_set display_value="servicenow-secure-encryption-util">38beaebb930122105a86bfea2bba1093</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2025-04-28 18:13:15</sys_created_on>
+<sys_id>38beaebb930122105a86bfea2bba1094</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_recorded_at>1967d7580400000001</sys_recorded_at>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2025-04-28 18:13:15</sys_updated_on>
+<table/>
+<target_name>SecureStringUtil</target_name>
+<type>Script Include</type>
+<update_domain>global</update_domain>
+<update_guid>e97522f7500122102dab6cda9b8c102e</update_guid>
+<update_guid_history>e97522f7500122102dab6cda9b8c102e:-607112366</update_guid_history>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="Global">global</application>
+<category>customer</category>
+<comments/>
+<name>sys_properties_2a166ab7930122105a86bfea2bba1010</name>
+<payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_properties"><sys_properties action="INSERT_OR_UPDATE"><choices/><description/><ignore_cache>true</ignore_cache><is_private>false</is_private><name>secure_util.salt_length</name><read_roles/><suffix/><sys_class_name>sys_properties</sys_class_name><sys_created_by>admin</sys_created_by><sys_created_on>2025-04-28 17:36:14</sys_created_on><sys_id>2a166ab7930122105a86bfea2bba1010</sys_id><sys_mod_count>0</sys_mod_count><sys_name>secure_util.salt_length</sys_name><sys_package display_value="Global" source="global">global</sys_package><sys_policy/><sys_scope display_value="Global">global</sys_scope><sys_update_name>sys_properties_2a166ab7930122105a86bfea2bba1010</sys_update_name><sys_updated_by>admin</sys_updated_by><sys_updated_on>2025-04-28 17:36:14</sys_updated_on><type>string</type><value>12</value><write_roles/></sys_properties><sys_translated_text action="delete_multiple" query="documentkey=2a166ab7930122105a86bfea2bba1010"/></record_update>]]></payload>
+<payload_hash>-1545467144</payload_hash>
+<remote_update_set display_value="servicenow-secure-encryption-util">38beaebb930122105a86bfea2bba1093</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2025-04-28 18:13:15</sys_created_on>
+<sys_id>3cbeaebb930122105a86bfea2bba1093</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_recorded_at>1967d788d280000001</sys_recorded_at>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2025-04-28 18:13:15</sys_updated_on>
+<table/>
+<target_name>secure_util.salt_length</target_name>
+<type>System Property</type>
+<update_domain>global</update_domain>
+<update_guid>9636eab749012210f74e3086fe020b1b</update_guid>
+<update_guid_history>9636eab749012210f74e3086fe020b1b:-1545467144</update_guid_history>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="Global">global</application>
+<category>customer</category>
+<comments/>
+<name>sys_properties_85a526f7930122105a86bfea2bba101b</name>
+<payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_properties"><sys_properties action="INSERT_OR_UPDATE"><choices/><description/><ignore_cache>true</ignore_cache><is_private>false</is_private><name>secure_util.secret_key</name><read_roles/><suffix/><sys_class_name>sys_properties</sys_class_name><sys_created_by>admin</sys_created_by><sys_created_on>2025-04-28 17:35:32</sys_created_on><sys_id>85a526f7930122105a86bfea2bba101b</sys_id><sys_mod_count>0</sys_mod_count><sys_name>secure_util.secret_key</sys_name><sys_package display_value="Global" source="global">global</sys_package><sys_policy/><sys_scope display_value="Global">global</sys_scope><sys_update_name>sys_properties_85a526f7930122105a86bfea2bba101b</sys_update_name><sys_updated_by>admin</sys_updated_by><sys_updated_on>2025-04-28 17:35:32</sys_updated_on><type>password2</type><value>!D^#AGBRqYoh/XRCXEox1UJeQ5ycZiOW/IthrD4Y3hZ8psWyKir5a2LRJjP1gSJ3jo7UlnvhyJy0czgmDZ+49Qb3Tg==</value><write_roles/></sys_properties><sys_translated_text action="delete_multiple" query="documentkey=85a526f7930122105a86bfea2bba101b"/></record_update>]]></payload>
+<payload_hash>-854642182</payload_hash>
+<remote_update_set display_value="servicenow-secure-encryption-util">38beaebb930122105a86bfea2bba1093</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2025-04-28 18:13:15</sys_created_on>
+<sys_id>74beaebb930122105a86bfea2bba1094</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_recorded_at>1967d77e9440000001</sys_recorded_at>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2025-04-28 18:13:15</sys_updated_on>
+<table/>
+<target_name>secure_util.secret_key</target_name>
+<type>System Property</type>
+<update_domain>global</update_domain>
+<update_guid>c01626f7ff01221048bc12ba1abd367a</update_guid>
+<update_guid_history>c01626f7ff01221048bc12ba1abd367a:-854642182</update_guid_history>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="Global">global</application>
+<category>customer</category>
+<comments/>
+<name>sys_script_include_eab4ae77930122105a86bfea2bba10bc</name>
+<payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sys_script_include"&gt;&lt;sys_script_include action="INSERT_OR_UPDATE"&gt;&lt;access&gt;public&lt;/access&gt;&lt;active&gt;true&lt;/active&gt;&lt;api_name&gt;global.SecureEncryption&lt;/api_name&gt;&lt;caller_access/&gt;&lt;client_callable&gt;false&lt;/client_callable&gt;&lt;description/&gt;&lt;mobile_callable&gt;false&lt;/mobile_callable&gt;&lt;name&gt;SecureEncryption&lt;/name&gt;&lt;sandbox_callable&gt;false&lt;/sandbox_callable&gt;&lt;script&gt;&lt;![CDATA[var SecureEncryption = Class.create();
+SecureEncryption.prototype = {
+    initialize: function() {
+        this.secretKey = gs.getProperty('secure_util.secret_key', 'DefaultSecretKey123!');
+        this.saltLength = parseInt(gs.getProperty('secure_util.salt_length', '12'), 10);
+        this.stringUtil = new SecureStringUtil();
+    },
+
+    encrypt: function(plainText) {
+        if (!plainText)
+            return '';
+
+        var salt = this.stringUtil.generateSalt(this.saltLength);
+        var saltedText = salt + plainText + salt;
+        var xorText = this.stringUtil.xorWithKey(saltedText, this.secretKey);
+        var encoded = this.stringUtil.base58Encode(xorText);
+        return encoded;
+    },
+
+    decrypt: function(encodedText) {
+        if (!encodedText)
+            return '';
+
+        var decoded = this.stringUtil.base58Decode(encodedText);
+        var unxorText = this.stringUtil.xorWithKey(decoded, this.secretKey);
+
+        var saltLength = this.saltLength;
+        if (unxorText.length &lt; (saltLength * 2))
+            return ''; // Invalid text
+
+        var originalText = unxorText.substring(saltLength, unxorText.length - saltLength);
+        return originalText;
+    },
+
+    type: 'SecureEncryption'
+};
+]]&gt;&lt;/script&gt;&lt;sys_class_name&gt;sys_script_include&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2025-04-28 17:30:31&lt;/sys_created_on&gt;&lt;sys_id&gt;eab4ae77930122105a86bfea2bba10bc&lt;/sys_id&gt;&lt;sys_mod_count&gt;2&lt;/sys_mod_count&gt;&lt;sys_name&gt;SecureEncryption&lt;/sys_name&gt;&lt;sys_package display_value="Global" source="global"&gt;global&lt;/sys_package&gt;&lt;sys_policy/&gt;&lt;sys_scope display_value="Global"&gt;global&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_script_include_eab4ae77930122105a86bfea2bba10bc&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2025-04-28 17:32:07&lt;/sys_updated_on&gt;&lt;/sys_script_include&gt;&lt;/record_update&gt;</payload>
+<payload_hash>170445731</payload_hash>
+<remote_update_set display_value="servicenow-secure-encryption-util">38beaebb930122105a86bfea2bba1093</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2025-04-28 18:13:15</sys_created_on>
+<sys_id>f8beaebb930122105a86bfea2bba1094</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_recorded_at>1967d74c76d0000001</sys_recorded_at>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2025-04-28 18:13:15</sys_updated_on>
+<table/>
+<target_name>SecureEncryption</target_name>
+<type>Script Include</type>
+<update_domain>global</update_domain>
+<update_guid>c245eab79301221033240f211e5d433d</update_guid>
+<update_guid_history>c245eab79301221033240f211e5d433d:170445731,4a35ea7764012210a8cb11f5498e4ddd:-1304783781,bae46277ab01221004c2dd73018c4b3a:170445731</update_guid_history>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+</unload>
